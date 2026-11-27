@@ -21,7 +21,7 @@ public class SecurityConfig {
     @Bean FilterRegistrationBean<NegocioAuthorizationFilter> disableContainerRegistration(NegocioAuthorizationFilter filter) { FilterRegistrationBean<NegocioAuthorizationFilter> b=new FilterRegistrationBean<>(filter);b.setEnabled(false);return b; }
     @Bean SecurityFilterChain securityFilterChain(HttpSecurity http,NegocioAuthorizationFilter filter)throws Exception {
         http.csrf(c->c.disable()).cors(Customizer.withDefaults())
-            .authorizeHttpRequests(a->a.requestMatchers("/actuator/health","/actuator/health/**").permitAll()
+            .authorizeHttpRequests(a->a.requestMatchers("/v3/api-docs", "/v3/api-docs/**", "/v3/api-docs.yaml").permitAll().requestMatchers("/actuator/health","/actuator/health/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/v1/**").hasAuthority("INVENTARIO_CONSULTAR")
                 .requestMatchers(HttpMethod.POST,"/api/v1/**").hasAuthority("INVENTARIO_GESTIONAR")
                 .anyRequest().denyAll())
